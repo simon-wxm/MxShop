@@ -10,11 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
-import os
+import os,sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+sys.path.insert(0,BASE_DIR)
+sys.path.insert(0,os.path.join(BASE_DIR,'apps'))
+sys.path.insert(0,os.path.join(BASE_DIR,'extra_apps'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -25,18 +27,26 @@ SECRET_KEY = 'lus(n7v$)b%1b+x*a^k^%u%@p#fk9p8l77y2!f!l270q+^iy02'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*',]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users.apps.UsersConfig',
+    'users',
+    'goods',
+    'trade',
+    'user_operation',
+    'rest_framework',
+    'xadmin',
+    'crispy_forms',
+    'DjangoUeditor',
 ]
 
 MIDDLEWARE = [
@@ -76,8 +86,14 @@ WSGI_APPLICATION = 'MxShop.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'shopdata',
+        'HOST':'193.112.7.111',
+        'PORT':'3306',
+        'PASSWORD':'rocK#+1024',
+        'USER':'rock',
+        "OPTIONS":{"init_command":"SET default_storage_engine=INNODB,"
+                                  "character_set_connection=utf8,collation_connection=utf8_unicode_ci;"}
     }
 }
 
@@ -118,4 +134,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+#添加静态文件
+AUTH_USER_MODEL = 'users.UserProfile'   # UserProfile
+
+
 STATIC_URL = '/static/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+
+
+
