@@ -20,6 +20,7 @@ class ShoppingCart(models.Model):
     class Meta:
         verbose_name = '购物车'
         verbose_name_plural = verbose_name
+        unique_together = ('user','goods')
 
     def __str__(self):
         return "%s(%d)".format(self.goods.name,self.nums)
@@ -54,7 +55,7 @@ class OrderInfo(models.Model):
     #订单的支付类型
     pay_type = models.CharField('支付类型',choices=PAY_TYPE,default='alipay',max_length=10)
     post_script = models.CharField('订单留言',max_length=200)
-    order_count = models.FloatField('订单金额',default=0.0)
+    order_mount = models.FloatField('订单金额',default=0.0)
     pay_time = models.DateTimeField('支付时间',null=True,blank=True)
 
     #用户信息
@@ -89,4 +90,7 @@ class OrderGoods(models.Model):
 
     def __str__(self):
         return str(self.order.order_sn)
+
+
+
 

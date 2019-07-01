@@ -57,7 +57,7 @@ class IndexAdAdmin(object):
 xadmin.site.register(Goods,GoodsAdmin)
 xadmin.site.register(GoodsCategory,GoodsCategroyAdmin)
 xadmin.site.register(GoodsCategoryBrand,GoodsBrandAdmin)
-xadmin.site.register(Banner,GoodsBrandAdmin)
+xadmin.site.register(Banner,BannerGoodsAdmin)
 xadmin.site.register(HotSearchWords,HotSearchAdmin)
 xadmin.site.register(IndexAd,IndexAdAdmin)
 

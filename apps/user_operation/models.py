@@ -33,8 +33,8 @@ class UserAddress(models.Model):
     city = models.CharField('城市',max_length=100,default='')
     district = models.CharField('区域',max_length=100,default='')
     address = models.CharField('详细地址',max_length=200,default='')
-    sniger_name = models.CharField('签收人',max_length=30,default='')
-    singer_mobile = models.CharField('电话',max_length=11,default='')
+    signer_name = models.CharField('签收人',max_length=30,default='')
+    signer_mobile = models.CharField('电话',max_length=11,default='')
     add_time = models.CharField('添加时间',default=datetime.now, max_length=30)
 
     class Meta:

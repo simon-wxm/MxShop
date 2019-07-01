@@ -23,12 +23,6 @@ row_data = [
     },
 
 
-
-
-
-
-
-
     {
         'images': [
             'goods/images/2_P_1448945810202.jpg',

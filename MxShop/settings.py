@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
-
+import datetime
 import os,sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -47,9 +47,13 @@ INSTALLED_APPS = [
     'xadmin',
     'crispy_forms',
     'DjangoUeditor',
+    'django_filters',
+    'coreschema',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -58,7 +62,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+CORS_ORIGIN_ALLOW_ALL = True
 ROOT_URLCONF = 'MxShop.urls'
 
 TEMPLATES = [
@@ -116,6 +120,29 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'EFAULT_THROTTLE_CLASSES': (
+                'rest_framework.throttling.AnonRateThrottle',   #未登陆用户
+                'rest_framework.throttling.UserRateThrottle'    #登陆用户
+            ),
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '3/minute',                   #每分钟可以请求两次
+        'user': '5/minute'                    #每分钟可以请求五次
+    }
+}
+
+AUTHENTICATION_BACKENDS = (
+    'users.views.CustomBackend',
+)
+
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
+    'JWT_AUTH_HEADER_PREFIX':'JWT',
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
@@ -128,7 +155,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -137,9 +164,18 @@ USE_TZ = True
 #添加静态文件
 AUTH_USER_MODEL = 'users.UserProfile'   # UserProfile
 
+# REST_FRANEWORK = {
+#     # 分页
+#     'DEFAULT_PAGINATION_CLASS':'rest_framework.pagination.PageNumberPagination',
+#     'PAGE_SIZE':10,
+# }
+
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+
+
 
 
 
