@@ -39,7 +39,7 @@ class UserRegSerializer(serializers.ModelSerializer):
                                      'max_length': '验证码格式错误',
                                      'min_length': '验证码格式错误',
                                  }, help_text='验证码')
-    username = serializers.CharField(lebal='用户名', help_text='用户名', required=True, allow_blank=False, validators=[
+    username = serializers.CharField(label='用户名', help_text='用户名', required=True, allow_blank=False, validators=[
         UniqueValidator(queryset=User.objects.all(), message='用户已经存在') ])
 
     password = serializers.CharField(style={'input_type':'password'}, label=True, write_only=True)
