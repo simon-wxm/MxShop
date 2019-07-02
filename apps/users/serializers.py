@@ -38,11 +38,11 @@ class UserRegSerializer(serializers.ModelSerializer):
                                      'required': '请输入验证码',
                                      'max_length': '验证码格式错误',
                                      'min_length': '验证码格式错误',
-                                 }, help_text='验证码')
+                                 }, help_text='验证码',label='验证码')
     username = serializers.CharField(label='用户名', help_text='用户名', required=True, allow_blank=False, validators=[
         UniqueValidator(queryset=User.objects.all(), message='用户已经存在') ])
 
-    password = serializers.CharField(style={'input_type':'password'}, label=True, write_only=True)
+    password = serializers.CharField(style={'input_type':'password'}, label='密碼', write_only=True)
 
     def validate_code(self, code):
         verify_records = VerifyCode.objects.filter(mobile=self.initial_data['username']).order_by('-add_time')
@@ -72,7 +72,7 @@ class UserRegSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        field = ('username', 'code', 'mobile', 'password')
+        fields = ('username', 'code', 'mobile', 'password')
 
 
 
