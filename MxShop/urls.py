@@ -12,10 +12,13 @@ from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
 from goods.views import CategoryViewSet
 from rest_framework.authtoken import views
+from users.views import SmsCodeViewsite, UserViewset
 router = DefaultRouter()
 
 router.register(r'goods', GoodsListViewSet)
 router.register(r'categorys', CategoryViewSet, base_name='categorys')
+router.register(r'code', SmsCodeViewsite, base_name='code')
+router.register(r'users', UserViewset, base_name='users')
 
 urlpatterns = [
     path('xadmin/', xadmin.site.urls),
