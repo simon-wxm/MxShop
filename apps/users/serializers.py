@@ -15,6 +15,7 @@ class SmsSerializer(serializers.Serializer):
 
     def validate_mobile(self,mobile):
         '''手机号码验证'''
+        print('code_serializers 001')
         if User.objects.filter(mobile=mobile).count():
             raise serializers.ValidationError('用户已经存在')
 
@@ -46,9 +47,9 @@ class UserRegSerializer(serializers.ModelSerializer):
 
     def validate_code(self, code):
         verify_records = VerifyCode.objects.filter(mobile=self.initial_data['username']).order_by('-add_time')
-
         if verify_records:
-            last_record = verify_records
+            print('verify_records 004', verify_records[0].code)
+            last_record = verify_records[0]
             five_mintes_ago = datetime.now() - timedelta(minutes=5)
             if five_mintes_ago > last_record.add_time:
                 raise serializers.ValidationError('验证码已经过期')

@@ -4,7 +4,7 @@ from django.shortcuts import render
 
 from goods.models import Goods, GoodsCategory
 from goods.serializers import GoodsSerializers
-from rest_framework import generics
+from rest_framework import generics, mixins
 from rest_framework.pagination import PageNumberPagination
 from .filters import GoodsFilter
 from django_filters.rest_framework import DjangoFilterBackend
@@ -17,7 +17,7 @@ class GoodsPagination(PageNumberPagination):
     page_query_param = 'page'
     max_page_size = 100
 
-class GoodsListViewSet(generics.ListAPIView, viewsets.GenericViewSet):
+class GoodsListViewSet(generics.ListAPIView, viewsets.GenericViewSet, mixins.RetrieveModelMixin ):
     '''商品列表页'''
     queryset = Goods.objects.all().order_by('id')
     pagination_class = GoodsPagination
@@ -41,3 +41,5 @@ class CategoryViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets
     serializer_class = CategorySerializer
 
 # return axios.get(`${local_host}/categorys/`+params.id+'/');
+
+

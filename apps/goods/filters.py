@@ -2,6 +2,7 @@ import django_filters
 from .models import Goods
 from django.db.models import Q
 
+
 class GoodsFilter(django_filters.rest_framework.FilterSet):
     pricemin = django_filters.NumberFilter(name='shop_price', lookup_expr='gte')
     pricemax = django_filters.NumberFilter(name='shop_price', lookup_expr='lte')
@@ -13,5 +14,5 @@ class GoodsFilter(django_filters.rest_framework.FilterSet):
 
     class Meta:
         model = Goods
-        fields = ['pricemin', 'pricemax']
+        fields = ['pricemin', 'pricemax', 'is_hot', 'is_new']
 

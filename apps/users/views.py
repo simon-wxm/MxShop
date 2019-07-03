@@ -24,6 +24,7 @@ class CustomBackend(ModelBackend):
     def authenticate(self, request, username=None, password=None, **kwargs):
         try:
             # 用户名和手机都能登录
+            print('验证用户的信息', username , password )
             user = User.objects.get(Q(username=username) | Q(mobile=username))
             if user.check_password(password):
                 return user
@@ -40,15 +41,18 @@ class SmsCodeViewsite(CreateModelMixin,viewsets.GenericViewSet):
         random_str = []
         for i in range(4):
             random_str.append(choice(seeds))
+        print('生成的code ',''.join(random_str) )
         return ''.join(random_str)
 
     def create(self,request,*args,**kwargs):
         serializers = self.get_serializer(data=request.data)
         serializers.is_valid(raise_exception=True)
+        print('request.data 003 ',request.data)
         mobile = serializers.validated_data['mobile']
         yun_pian = YunPian(APIKEY)
         code = self.generate_code()
-        sms_status = yun_pian.send_sms(code=code,mobile=mobile)
+        print('code _ views 002')
+        sms_status =  {'code':0,'msg':'验证码123' } # yun_pian.send_sms(code=code,mobile=mobile)
 
         if sms_status['code'] != 0:
             return Response({
