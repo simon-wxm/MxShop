@@ -35,7 +35,7 @@ class GoodsImageSerializers(serializers.ModelSerializer):
         fields = ('image',)
 
 
-class GoodsSerializers(serializers.ModelSerializer):
+class GoodsSerializer(serializers.ModelSerializer):
     '''商品'''
     category = CategorySerializer()
     images = GoodsImageSerializers(many=True)
@@ -70,14 +70,14 @@ class IndexCategorySerializers(serializers.ModelSerializer):
         if ad_goods:
             goods_ins = ad_goods[0].goods
             # 在serializers 中嵌套使用,应该将本地的request传给嵌套的序列化使用
-            goods_json = GoodsSerializers(goods_ins,many=True, context={'request':self.context['request']})
+            goods_json = GoodsSerializer(goods_ins,many=True, context={'request':self.context['request']})
             # goods_json应该是一个序列化的信息, .data才是值
             return goods_json.data
 
     def get_goods(self,obj):
         all_goods = Goods.objects.filter(Q(category_id = obj.id) | Q(category__parent_category_id = obj.id) |
                                          Q(category__parent_category__parent_category_id = obj.id) )
-        goods_serializers  = GoodsSerializers(all_goods, many=True, context={'request':self.context['request']})
+        goods_serializers  = GoodsSerializer(all_goods, many=True, context={'request':self.context['request']})
         return  goods_serializers.data
 
     class Meta:

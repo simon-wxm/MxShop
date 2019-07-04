@@ -3,7 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 
 from goods.models import Goods, GoodsCategory
-from goods.serializers import GoodsSerializers
+from goods.serializers import GoodsSerializer
 from rest_framework import generics, mixins
 from rest_framework.pagination import PageNumberPagination
 from .filters import GoodsFilter
@@ -17,11 +17,15 @@ class GoodsPagination(PageNumberPagination):
     page_query_param = 'page'
     max_page_size = 100
 
-class GoodsListViewSet(generics.ListAPIView, viewsets.GenericViewSet, mixins.RetrieveModelMixin ):
-    '''商品列表页'''
+class GoodsListViewSet(generics.ListAPIView, viewsets.GenericViewSet,
+                       mixins.RetrieveModelMixin):
+    '''
+    list： 商品列表，分页，搜索，过滤，排序
+    retrieve: 获取商品详情
+    '''
     queryset = Goods.objects.all().order_by('id')
     pagination_class = GoodsPagination
-    serializer_class = GoodsSerializers
+    serializer_class = GoodsSerializer
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter )
 
     filter_class = GoodsFilter
